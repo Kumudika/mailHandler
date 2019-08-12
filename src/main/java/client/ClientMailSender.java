@@ -1,7 +1,5 @@
 package client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import model.MailRequest;
 
@@ -13,7 +11,7 @@ import java.util.Random;
 
 public class ClientMailSender implements Runnable {
     private InetAddress host;
-    ObjectMapper objectMapper;
+    Gson gson;
     private int port;
     MailRequest mailRequest;
     private String requestId;
@@ -21,7 +19,7 @@ public class ClientMailSender implements Runnable {
 
     public ClientMailSender(MailRequest mailRequest) {
         try {
-            objectMapper = new ObjectMapper();
+            gson = new Gson();
             host = InetAddress.getLocalHost();
             port = 9876;
             this.mailRequest = mailRequest;
@@ -37,7 +35,7 @@ public class ClientMailSender implements Runnable {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()))
         ){
-            String writeJson = objectMapper.writeValueAsString(mailRequest);
+            String writeJson = gson.toJson( mailRequest );
             out.println(writeJson);
 
             String readValue = in.readLine();
