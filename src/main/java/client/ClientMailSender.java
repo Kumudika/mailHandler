@@ -41,7 +41,6 @@ public class ClientMailSender implements Runnable {
             out.println(writeJson);
 
             String readValue = in.readLine();
-            SendEmailAck emailAck = objectMapper.readValue(readValue, SendEmailAck.class);
 
             int sleepTime = random.nextInt(450) + 50;
             Thread.sleep(sleepTime);
