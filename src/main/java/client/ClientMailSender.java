@@ -18,6 +18,7 @@ public class ClientMailSender implements Runnable {
     MailRequest mailRequest;
     private String requestId;
     Random random;
+    private  int rr;
 
     public ClientMailSender(MailRequest mailRequest) {
         try {
