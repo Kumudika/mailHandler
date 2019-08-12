@@ -1,5 +1,7 @@
 package client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import model.MailRequest;
 
@@ -11,7 +13,7 @@ import java.util.Random;
 
 public class ClientMailSender implements Runnable {
     private InetAddress host;
-    ObjectMapper
+    ObjectMapper objectMapper;
     private int port;
     MailRequest mailRequest;
     private String requestId;
@@ -19,6 +21,7 @@ public class ClientMailSender implements Runnable {
 
     public ClientMailSender(MailRequest mailRequest) {
         try {
+            objectMapper = new ObjectMapper();
             host = InetAddress.getLocalHost();
             port = 9876;
             this.mailRequest = mailRequest;
@@ -36,26 +39,18 @@ public class ClientMailSender implements Runnable {
         ){
             String writeJson = objectMapper.writeValueAsString(mailRequest);
             out.println(writeJson);
-            SocketMailLogger.logInfoMessage( "Mail request sent : " + emailRequest.getRequestId() );
 
             String readValue = in.readLine();
             SendEmailAck emailAck = objectMapper.readValue(readValue, SendEmailAck.class);
-            SocketMailLogger.logInfoMessage( "Ack received " + emailAck.getRequestId() + " : " + emailAck.getStatus() );
 
             int sleepTime = random.nextInt(450) + 50;
             Thread.sleep(sleepTime);
-        }
-        catch(JsonProcessingException e)
+        } catch(IOException e)
         {
-            SocketMailLogger.logErrorMessage( "Error occurred while JSON parsing: " + e.getMessage(), e );
-        }
-        catch(IOException e)
+            e.printStackTrace();
+        } catch(InterruptedException e)
         {
-            SocketMailLogger.logErrorMessage( "Error occurred in socket connection: " + e.getMessage(), e );
-        }
-        catch(InterruptedException e)
-        {
-            SocketMailLogger.logErrorMessage( "Error occurred in requestSender thread running : " + e.getMessage(), e );
+            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
     }
