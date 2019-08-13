@@ -1,7 +1,8 @@
 package client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import model.MailRequest;
+import model.SendEmailReq;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -11,17 +12,18 @@ import java.util.Random;
 
 public class ClientMailSender implements Runnable {
     private InetAddress host;
-    Gson gson;
+    ObjectMapper objectMapper;
     private int port;
-    MailRequest mailRequest;
+    SendEmailReq mailRequest;
     private String requestId;
     Random random;
+    private  int rr;
 
-    public ClientMailSender(MailRequest mailRequest) {
+    public ClientMailSender( SendEmailReq mailRequest) {
         try {
-            gson = new Gson();
+            objectMapper = new ObjectMapper();
             host = InetAddress.getLocalHost();
-            port = 9876;
+            port = 2500;
             this.mailRequest = mailRequest;
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -35,7 +37,7 @@ public class ClientMailSender implements Runnable {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()))
         ){
-            String writeJson = gson.toJson( mailRequest );
+            String writeJson = objectMapper.writeValueAsString(mailRequest);
             out.println(writeJson);
 
             String readValue = in.readLine();
