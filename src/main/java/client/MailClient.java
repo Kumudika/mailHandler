@@ -1,8 +1,7 @@
 package client;
 
-import model.MailRequest;
+import model.SendEmailReq;
 
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,8 +18,8 @@ public class MailClient {
 
         }
     }
-    public static MailRequest getRq(String requestId){
-        MailRequest emailReqMsg = new MailRequest(  );
+    public static SendEmailReq getRq(String requestId){
+        SendEmailReq emailReqMsg = new SendEmailReq(  );
         emailReqMsg.setRequestId( requestId);
         emailReqMsg.setBody( "Body" );
         emailReqMsg.setReceipentEmail( "janithalokuge92@gmail.com" );

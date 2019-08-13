@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class MailRequest implements Serializable {
+public class SendEmailReq implements Serializable {
     private String requestId;
     private String senderName;
     private String receipentEmail;
