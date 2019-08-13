@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import model.SendEmailAck;
 import model.SendEmailReq;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class SendEmailReqProducer implements Runnable
@@ -25,20 +23,22 @@ public class SendEmailReqProducer implements Runnable
 	public void run()
 	{
 		try (
-				ObjectInputStream inputStream = new ObjectInputStream( socket.getInputStream() );
-				ObjectOutputStream outputStream = new ObjectOutputStream( socket.getOutputStream() )
+				BufferedReader bufferedReader = new BufferedReader(
+						new InputStreamReader( socket.getInputStream() ) );
+				PrintWriter printWriter =
+						new PrintWriter( socket.getOutputStream(), true );
 		)
 		{
-			//  read the mail
-			String data = ( String ) inputStream.readObject();
+			String data = bufferedReader.readLine();
 			SendEmailReq sendEmailReq = gson.fromJson( data, SendEmailReq.class );
 			SendEmailAck sendEmailAck = emailDispatchQueue.enqueue( sendEmailReq );
-			outputStream.writeObject( gson.toJson( sendEmailAck ) );
+			printWriter.println( gson.toJson( sendEmailAck ) );
 			socket.close();
 		}
-		catch ( IOException | ClassNotFoundException e )
+		catch ( IOException e )
 		{
 			//			CommonLogger.logErrorMessage(this, e);
+			e.printStackTrace();
 		}
 	}
 }

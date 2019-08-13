@@ -22,6 +22,21 @@ public class MailServerConnection
 		} );
 	}
 
+	public MailServerConnection( )
+	{
+		//properties for mail server
+		Properties properties = new Properties();
+		properties.put( "mail.smtp.auth", false );
+		properties.put( "mail.smtp.starttls.enable", "true" );
+		properties.put( "mail.smtp.host", "localhost" );
+		properties.put( "mail.smtp.port", "25" );
+
+		this.session = Session.getInstance( properties, new Authenticator()
+		{
+			// no need to override password authentication since it is not required.
+		} );
+	}
+
 	public void sendEmail( SendEmailReq sendEmailReq )
 	{
 		try

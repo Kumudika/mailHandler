@@ -3,23 +3,23 @@ package server;
 import model.SendEmailAck;
 import model.SendEmailReq;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class EmailDispatchQueue
 {
-	BlockingQueue<SendEmailReq> queue;
+	private LinkedBlockingQueue<SendEmailReq> queue;
 
-	public EmailDispatchQueue( BlockingQueue<SendEmailReq> queue )
+	public EmailDispatchQueue( LinkedBlockingQueue<SendEmailReq> queue )
 	{
 		this.queue = queue;
 	}
 
-	public BlockingQueue<SendEmailReq> getQueue()
+	public LinkedBlockingQueue<SendEmailReq> getQueue()
 	{
 		return queue;
 	}
 
-	public void setQueue( BlockingQueue<SendEmailReq> queue )
+	public void setQueue( LinkedBlockingQueue<SendEmailReq> queue )
 	{
 		this.queue = queue;
 	}

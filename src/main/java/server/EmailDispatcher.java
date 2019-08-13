@@ -4,8 +4,8 @@ import model.SendEmailReq;
 
 public class EmailDispatcher implements Runnable
 {
-	EmailDispatchQueue emailDispatchQueue;
-	MailServerConnection mailServerConnection;
+	private EmailDispatchQueue emailDispatchQueue;
+	private MailServerConnection mailServerConnection;
 
 	public EmailDispatcher( EmailDispatchQueue emailDispatchQueue, MailServerConnection mailServerConnection )
 	{
@@ -19,7 +19,10 @@ public class EmailDispatcher implements Runnable
 		while ( true )
 		{
 			SendEmailReq sendEmailReq = emailDispatchQueue.dequeue();
-			mailServerConnection.sendEmail( sendEmailReq );
+			if ( sendEmailReq != null )
+			{
+				mailServerConnection.sendEmail( sendEmailReq );
+			}
 		}
 	}
 }

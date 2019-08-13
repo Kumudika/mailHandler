@@ -25,8 +25,9 @@ public class ClientMailSender implements Runnable
 		try
 		{
 			host = InetAddress.getLocalHost();
-			port = 2500;
+			port = 9999;
 			this.sendEmailReq = sendEmailReq;
+			random = new Random();
 		}
 		catch ( UnknownHostException e )
 		{
@@ -34,20 +35,23 @@ public class ClientMailSender implements Runnable
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		try (
-				Socket socket = new Socket( host, port );
-				PrintWriter out =
-						new PrintWriter( socket.getOutputStream(), true );
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader( socket.getInputStream() ) )
+				Socket socket = new Socket(host, port);
+				PrintWriter printWriter =
+						new PrintWriter(socket.getOutputStream(), true);
+				BufferedReader bufferedReader = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()))
 		)
 		{
-			String writeJson = gson.toJson( sendEmailReq, SendEmailReq.class );
-			out.println( writeJson );
-			String readValue = in.readLine();
-			SendEmailAck resMsg = gson.fromJson( readValue, SendEmailAck.class );
+			System.out.println("1");
+			String outputString = gson.toJson( sendEmailReq, SendEmailReq.class );
+			printWriter.println(outputString);
+
+			String inputString =  bufferedReader.readLine();
+			SendEmailAck resMsg = gson.fromJson( inputString, SendEmailAck.class );
 			System.out.println(resMsg);
 
 			int sleepTime = random.nextInt( 450 ) + 50;
