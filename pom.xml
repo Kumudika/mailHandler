@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.xxx</groupId>
-    <artifactId>sokcet-mail</artifactId>
+    <groupId>it.enactor</groupId>
+    <artifactId>email-sender</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
-
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
@@ -73,7 +72,6 @@
         <junit.version>4.12</junit.version>
         <jackson.version>2.9.9</jackson.version>
     </properties>
-
     <dependencies>
         <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
         <dependency>
@@ -81,22 +79,10 @@
             <artifactId>javax.mail</artifactId>
             <version>${sun.mail.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
         </dependency>
     </dependencies>
-
-
-
-
 </project>

@@ -26,17 +26,19 @@ public class EmailDispatchQueue
 
 	public SendEmailAck enqueue( SendEmailReq sendEmailReq )
 	{
+		SendEmailAck sendEmailAck;
 		try
 		{
 			this.queue.put( sendEmailReq );
-			return new SendEmailAck( sendEmailReq.getRequestId(), SendEmailAck.Status.OK );
+			sendEmailAck = new SendEmailAck( sendEmailReq.getRequestId(), SendEmailAck.Status.OK );
 		}
 		catch ( InterruptedException e )
 		{
 			e.printStackTrace();
+			sendEmailAck = new SendEmailAck( sendEmailReq.getRequestId(), SendEmailAck.Status.ERROR );
 		}
 
-		return null;
+		return sendEmailAck;
 	}
 
 	public SendEmailReq dequeue()
@@ -48,7 +50,7 @@ public class EmailDispatchQueue
 		catch ( InterruptedException e )
 		{
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 }

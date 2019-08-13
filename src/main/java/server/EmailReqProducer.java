@@ -4,16 +4,19 @@ import com.google.gson.Gson;
 import model.SendEmailAck;
 import model.SendEmailReq;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
-public class SendEmailReqProducer implements Runnable
+public class EmailReqProducer implements Runnable
 {
 	private Socket socket;
 	private EmailDispatchQueue emailDispatchQueue;
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
-	public SendEmailReqProducer( Socket socket, EmailDispatchQueue emailDispatchQueue )
+	public EmailReqProducer( Socket socket, EmailDispatchQueue emailDispatchQueue )
 	{
 		this.socket = socket;
 		this.emailDispatchQueue = emailDispatchQueue;
@@ -37,7 +40,6 @@ public class SendEmailReqProducer implements Runnable
 		}
 		catch ( IOException e )
 		{
-			//			CommonLogger.logErrorMessage(this, e);
 			e.printStackTrace();
 		}
 	}

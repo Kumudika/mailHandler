@@ -11,7 +11,6 @@ import java.util.Properties;
 
 public class MailServerConnection
 {
-
 	private Session session;
 
 	public MailServerConnection( Properties properties )
@@ -22,7 +21,7 @@ public class MailServerConnection
 		} );
 	}
 
-	public MailServerConnection( )
+	public MailServerConnection()
 	{
 		//properties for mail server
 		Properties properties = new Properties();
@@ -43,24 +42,19 @@ public class MailServerConnection
 		{
 			Message message = new MimeMessage( session );
 			message.setFrom( new InternetAddress( sendEmailReq.getSenderName() ) );
-			message.setRecipients(
-					Message.RecipientType.TO, InternetAddress.parse( sendEmailReq.getReceipentEmail() ) );
+			message.setRecipients( Message.RecipientType.TO, InternetAddress.parse( sendEmailReq.getReceipentEmail() ) );
 			message.setSubject( sendEmailReq.getSubject() );
-
 			MimeBodyPart mimeBodyPart = new MimeBodyPart();
 			mimeBodyPart.setContent( sendEmailReq.getBody(), "text/html" );
-
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart( mimeBodyPart );
 
 			message.setContent( multipart );
 			Transport.send( message );
-
 		}
 		catch ( MessagingException e )
 		{
 			e.printStackTrace();
 		}
 	}
-
 }
