@@ -36,8 +36,9 @@ public class MailServerConnection
 		} );
 	}
 
-	public void sendEmail( SendEmailReq sendEmailReq )
+	public boolean sendEmail( SendEmailReq sendEmailReq )
 	{
+		boolean success = true;
 		try
 		{
 			Message message = new MimeMessage( session );
@@ -55,6 +56,9 @@ public class MailServerConnection
 		catch ( MessagingException e )
 		{
 			e.printStackTrace();
+			success = false;
 		}
+
+		return success;
 	}
 }
